@@ -1,0 +1,20 @@
+{
+  "name": "polaris-wc-codemod",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kinngh/polaris-wc-codemod.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kinngh/polaris-wc-codemod/issues"
+  },
+  "homepage": "https://github.com/kinngh/polaris-wc-codemod#readme",
+  "description": ""
+}
