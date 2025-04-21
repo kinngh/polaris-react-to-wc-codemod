@@ -35,11 +35,24 @@ function runTransform(transformName) {
 
 function main() {
   // Adjust as needed: run transforms in the desired sequence
+  runTransform("page.js");
+  runTransform("text.js");
   runTransform("button.js");
-  runTransform("link.js");
   runTransform("banner.js");
+  runTransform("box.js");
+  runTransform("button.js");
+  runTransform("checkbox.js");
+  runTransform("choicelist.js");
+  runTransform("divider.js");
+  runTransform("grid.js");
+  runTransform("icon.js");
+  runTransform("image.js");
+  runTransform("link.js");
   runTransform("section.js");
+  runTransform("select.js");
   runTransform("spinner.js");
+  runTransform("stack.js");
+  runTransform("table.js");
 }
 
 main();
