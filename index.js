@@ -1,26 +1,37 @@
-// Legacy entry point retained for backwards compatibility.
-// Prefer running `bun index.js <target-directory>` from the project root.
+import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import process from "node:process";
-import { spawnSync } from "node:child_process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function runTransform(transformName, targetDir) {
-  const transformPath = path.join(__dirname, transformName);
+  const transformPath = path.join(__dirname, "src", transformName);
+  console.log(`Running transform "${transformName}" on "${targetDir}"...`);
   const result = spawnSync(
     "bunx",
     ["jscodeshift", "-t", transformPath, targetDir],
-    { stdio: "inherit", shell: process.platform === "win32" }
+    {
+      stdio: "inherit",
+      shell: process.platform === "win32",
+    }
   );
+
   if (result.status !== 0) {
-    throw new Error(`Codemod execution failed for ${transformName}`);
+    console.error(`Codemod execution failed for "${transformName}".`);
+    process.exit(result.status ?? 1);
   }
 }
 
-export function runAll(targetDir) {
+function main() {
+  if (process.argv.length < 3) {
+    console.error("Usage: bun index.js <target-directory>");
+    process.exit(1);
+  }
+
+  const targetDir = path.resolve(process.cwd(), process.argv[2]);
+
   const transforms = [
     "badge.js",
     "banner.js",
@@ -45,11 +56,9 @@ export function runAll(targetDir) {
     "textfield.js",
   ];
 
-  for (const t of transforms) runTransform(t, targetDir);
+  for (const transform of transforms) {
+    runTransform(transform, targetDir);
+  }
 }
 
-if (process.argv.length > 1 && process.argv[1] === fileURLToPath(import.meta.url)) {
-  const dir = process.argv[2] ? path.resolve(process.cwd(), process.argv[2]) : process.cwd();
-  runAll(dir);
-}
-
+main();
